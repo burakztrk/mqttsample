@@ -1,7 +1,6 @@
 package ozturkburak.com.mqttsample;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
@@ -9,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import ozturkburak.com.mqttsample.model.MessageInfo;
 import ozturkburak.com.mqttsample.model.MessageType;
 
-import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -17,18 +15,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 
-public class MainActivity extends AppCompatActivity
-        implements MqttController.MessageArrivedListener , View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements MqttController.MessageArrivedListener , View.OnClickListener {
 
     private MqttController controller;
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BarUtils.setStatusBarColor(this,Color.GRAY);
-
 
         controller = new MqttController(this, this);
         controller.connect();
@@ -36,6 +33,7 @@ public class MainActivity extends AppCompatActivity
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(this);
     }
+
 
 
     @Override
@@ -48,11 +46,15 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
+
     @Override
     public void newMessageArrived(String topic, String message)
     {
         LogUtils.d(topic , message);
     }
+
+
 
 
     @Override
