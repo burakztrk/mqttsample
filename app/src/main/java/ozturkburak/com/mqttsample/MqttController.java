@@ -85,7 +85,7 @@ public class MqttController implements MqttCallbackExtended{
 
     @Override
     public void connectionLost(Throwable cause) {
-        LogUtils.a("The Connection was lost.");
+        LogUtils.a("The Connection was lost. ");
 
     }
 
