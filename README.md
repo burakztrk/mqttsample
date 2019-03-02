@@ -1,4 +1,5 @@
-# mqttsample
+
+## Android Mqtt Sample for Iot devices
 
 File -> New -> Project from Version Control -> GitHub -> https://github.com/burakztrk/mqttsample.git
 
