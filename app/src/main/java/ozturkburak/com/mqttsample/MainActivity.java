@@ -6,10 +6,8 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import ozturkburak.com.mqttsample.model.MessageInfo;
-import ozturkburak.com.mqttsample.model.MessageType;
 
 import com.blankj.utilcode.util.LogUtils;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 
@@ -21,7 +19,6 @@ public class MainActivity extends AppCompatActivity implements MqttController.Me
 
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,20 +27,34 @@ public class MainActivity extends AppCompatActivity implements MqttController.Me
         controller = new MqttController(this, this);
         controller.connect();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(this);
     }
 
 
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()){
-            case R.id.fab:
-                MessageInfo message = new MessageInfo(MessageType.TEXT, "Text Test Message");
-                controller.publishMessage(message);
+            case R.id.button_text:
+                controller.sendMessageCmd("Text Test Message");
+                break;
+            case R.id.button_smiley:
+                controller.sendSmileyCmd(MessageInfo.SMILEY_SADFACE);
+                break;
+            case R.id.button_addWifi:
+                controller.sendNewWifiInfoCmd("ssid" ,"pass");
+                break;
+            case R.id.button_getInfo:
+                controller.sendGetInfoCmd();
+                break;
+            case R.id.button_sendTimeZone:
+                controller.sendTimeZoneCmd(3);
+                break;
+            case R.id.button_restart:
+                controller.sendRestartCmd();
                 break;
         }
+
     }
 
 

@@ -5,5 +5,16 @@ package ozturkburak.com.mqttsample.model;
  */
 public enum  MessageType
 {
-    TEXT,HEART,HEARTBEAT,SMILE,SADFACE;//WIFI
+    SYSTEM ,MESSAGE, SMILEYS,NONE;
+
+    public static MessageType find(String name) {
+        try {
+            return MessageType.valueOf(name);
+        }catch (IllegalArgumentException ex){
+            ex.printStackTrace();}
+
+        return NONE;
+    }
+
+
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.StringUtils;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
@@ -126,13 +127,13 @@ public class MqttController implements MqttCallbackExtended{
     }
 
 
-    public void publishMessage(MessageInfo message)
+    private void publishMessage(String message)
     {
-        String messageJson = GsonUtils.toJson(message);
+
         try {
 
-            mqttAndroidClient.publish(Constants.TOPIC, messageJson.getBytes(),0,false);
-            LogUtils.a("Message Published:" , messageJson);
+            mqttAndroidClient.publish(Constants.TOPIC, message.getBytes(),0,false);
+            LogUtils.a("Message Published:" , message);
             if(!mqttAndroidClient.isConnected()){
                 LogUtils.a(mqttAndroidClient.getBufferedMessageCount() + " messages in buffer.");
             }
@@ -149,6 +150,62 @@ public class MqttController implements MqttCallbackExtended{
         } catch (MqttException e) {
             e.printStackTrace();
         }
-
     }
+
+
+
+
+
+    public void sendTimeZoneCmd(int timeZone){
+        MessageInfo message = MessageInfo.SystemInstance(MessageInfo.CMD_SYSTEM_SET_TIMEZONE , String.valueOf(timeZone));
+        publishMessage(message.toJson());
+    }
+
+
+
+    public void sendNewWifiInfoCmd(String ssid , String pass)
+    {
+        if (StringUtils.isTrimEmpty(ssid) || StringUtils.isTrimEmpty(pass))
+            return;
+
+        MessageInfo message = MessageInfo.SystemInstance(MessageInfo.CMD_SYSTEM_ADD_WIFI , ssid , pass);
+        publishMessage(message.toJson());
+    }
+
+    public void sendRestartCmd(){
+        MessageInfo message = MessageInfo.SystemInstance(MessageInfo.CMD_SYSTEM_RESTART );
+        publishMessage(message.toJson());
+    }
+
+
+    public void sendGetInfoCmd(){
+        MessageInfo message = MessageInfo.SystemInstance(MessageInfo.CMD_SYSTEM_GET_INFO );
+        publishMessage(message.toJson());
+    }
+
+
+    public void sendMessageCmd(String text){
+
+        if (StringUtils.isTrimEmpty(text))
+            return;
+
+        MessageInfo message = MessageInfo.MessageInstance(text);
+        publishMessage(message.toJson());
+    }
+
+    public void sendSmileyCmd(String text){
+
+        if (StringUtils.isTrimEmpty(text))
+            return;
+
+        MessageInfo message = MessageInfo.SmileyInstance(text);
+        publishMessage(message.toJson());
+    }
+
+
+
+
+
+
+
 }
